@@ -7,6 +7,10 @@ was funkier as a first gem than the boring traditional "Hello World!".
 Usage:
   $ pictate /path/to/image [options]
 
+== Dependencies
+
+* Java to run the Selenium server (details below)
+
 == Selenium
 
 Unfortunately Google uses a lot of Javascript and as such this gem uses browser
