@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "pictate"
   gem.homepage = "http://github.com/Prydonius/pictate"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Tells you what a picture is of.}
+  gem.description = %Q{Searches with Google search by image and returns the best match.}
   gem.email = "adnan@prydoni.us"
   gem.authors = ["Adnan Abdulhussein"]
   # dependencies defined in Gemfile
@@ -30,14 +30,6 @@ Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
-end
-
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
 end
 
 task :default => :test

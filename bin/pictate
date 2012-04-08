@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'choice'
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+require 'pictate'
+
+include Pictate
+
+#
+# Command line parsing
+#
+Choice.options do
+  banner "Usage: <image> [options]"
+  option :server do
+    long "--server=SERVER"
+    short "-s"
+    desc "Location of selenium standalone server jar"
+    desc "If this isn't specified, the latest server will be downloaded " + 
+          "and used."
+  end
+end
+
+#
+# Print error and help message, then exit
+#
+def show_error str="There was an error with the parsing..."
+  puts str
+  Choice.help
+  exit
+end
+
+#
+# Check image extension
+#
+ext = File.extname Choice.rest.first || ""
+if not %w[.jpg .png .gif .bmp].include? ext
+  show_error "Please pass in the path of an image with one of the " +
+    "following extensions:\n.jpg, .png, .gif, or .bmp\n\n"
+end
+
+#
+# Check if standalone server extension is .jar
+#
+if Choice.choices[:server]
+  if not (File.extname Choice.choices[:server]) == ".jar"
+    show_error "Please specify the path of the jar standalone selenium " + 
+      "server.\n\n"
+  end
+end
+
+Pictate.pictate Choice.rest.first, Choice.choices
