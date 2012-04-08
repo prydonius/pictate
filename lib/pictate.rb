@@ -1,7 +1,13 @@
 require "selenium-webdriver"
 require "selenium/server"
+require "fileutils"
+
+PICTATE_ROOT = Gem.loaded_specs['pictate'].full_gem_path
 
 module Pictate
+  #
+  # Starts the server, gets the best result for the image and stops server.
+  #
   def pictate(image_path, options = {})
     start_server options[:server]
     puts "I'm thinking..."
@@ -9,12 +15,21 @@ module Pictate
     stop_server
   end
 
+  #
+  # Starts the server.
+  # Checks to see if you've given it a server path, if not it will check the
+  # _ext_ directory of the gem library. If it's not there, it will download it
+  # to that directory.
+  # Note:: perhaps a better directory is needed as it is overwritten when the
+  #        gem is reinstalled.
+  #
   def start_server(server_path)
-    FileUtils.cd "../ext"
-    selenium_latest = Selenium::Server.latest
     if server_path
       selenium_path = server_path
     else
+      previous_wd = FileUtils.pwd
+      FileUtils.cd(File.join PICTATE_ROOT, 'ext')
+      selenium_latest = Selenium::Server.latest
       if not File.exists? "selenium-server-standalone-#{selenium_latest}.jar"
         puts "Downloading latest version of selenium server standalone..."
       end
@@ -27,8 +42,12 @@ module Pictate
     caps = Selenium::WebDriver::Remote::Capabilities.htmlunit(
       :javascript_enabled => true)
     @driver = Selenium::WebDriver.for(:remote, :desired_capabilities => caps)
+    FileUtils.cd(previous_wd)
   end
 
+  #
+  # Stops the server
+  #
   def stop_server
     puts "Stopping server..."
     @driver.quit
@@ -36,6 +55,9 @@ module Pictate
     puts "Goodbye!"
   end
 
+  #
+  # Carries out the search and retrieves the best match
+  #
   def do_search(image_path)
     @driver.navigate.to "http://www.google.co.uk/searchbyimage"
     # show the upload dialog
@@ -43,7 +65,7 @@ module Pictate
 
     # upload image and search
     upload = @driver.find_element(:name, 'encoded_image')
-    upload.send_keys image_path
+    upload.send_keys(File.expand_path image_path)
 
     # best result
     wait = Selenium::WebDriver::Wait.new(:timeout => 100)

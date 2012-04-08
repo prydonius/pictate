@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "pictate"
   gem.homepage = "http://github.com/Prydonius/pictate"
   gem.license = "MIT"
-  gem.summary = %Q{Tells you what a picture is of.}
-  gem.description = %Q{Searches with Google search by image and returns the best match.}
+  gem.summary = %Q{Attempts to describe a picture you give it.}
+  gem.description = %Q{Pointless command line tool that attempts to describe the image you give it by automating a google search by image.}
   gem.email = "adnan@prydoni.us"
   gem.authors = ["Adnan Abdulhussein"]
   # dependencies defined in Gemfile
@@ -42,4 +42,5 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "pictate #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.main = "README.rdoc"
 end
