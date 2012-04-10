@@ -1,6 +1,7 @@
 require "selenium-webdriver"
 require "selenium/server"
 require "fileutils"
+require "spinning_cursor"
 
 PICTATE_ROOT = Gem.loaded_specs['pictate'].full_gem_path
 
@@ -9,10 +10,14 @@ module Pictate
   # Starts the server, gets the best result for the image and stops server.
   #
   def pictate(image_path, options = {})
-    start_server options[:server]
-    puts "I'm thinking..."
-    puts do_search image_path
-    stop_server
+    SpinningCursor.start do
+      action do
+        start_server options[:server]
+        SpinningCursor.set_banner "I'm thinking"
+        SpinningCursor.set_message (do_search image_path)
+        stop_server
+      end
+    end
   end
 
   #
@@ -31,12 +36,13 @@ module Pictate
       FileUtils.cd(File.join PICTATE_ROOT, 'ext')
       selenium_latest = Selenium::Server.latest
       if not File.exists? "selenium-server-standalone-#{selenium_latest}.jar"
-        puts "Downloading latest version of selenium server standalone..."
+        SpinningCursor.set_banner "Downloading latest version of selenium " +
+          "server standalone"
       end
       selenium_path = Selenium::Server.download(selenium_latest)
     end
 
-    puts "Starting selenium standalone server"
+    SpinningCursor.set_banner "Starting selenium standalone server"
     @server = Selenium::Server.new(selenium_path, :background => true)
     @server.start
     caps = Selenium::WebDriver::Remote::Capabilities.htmlunit(
@@ -49,10 +55,8 @@ module Pictate
   # Stops the server
   #
   def stop_server
-    puts "Stopping server..."
     @driver.quit
     @server.stop
-    puts "Goodbye!"
   end
 
   #

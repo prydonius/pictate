@@ -15,3 +15,4 @@ end
 
 gem "selenium-webdriver", "~> 2.20"
 gem "choice", "~> 0.1.6"
+gem "spinning_cursor", "~> 0.1.0.rc1"
