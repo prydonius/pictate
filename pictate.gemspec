@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "pictate"
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adnan Abdulhussein"]
-  s.date = "2012-04-25"
+  s.date = "2012-04-28"
   s.description = "Pointless command line tool that attempts to describe the image you give it by automating a google search by image."
   s.email = "adnan@prydoni.us"
   s.executables = ["pictate"]
@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/pictate",
-    "ext/.gitignore",
     "lib/pictate.rb",
     "pictate.gemspec",
     "test/helper.rb",
@@ -42,33 +41,30 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<selenium-webdriver>, ["~> 2.20"])
+      s.add_runtime_dependency(%q<selenium-webdriver>, ["~> 2.21.2"])
       s.add_runtime_dependency(%q<choice>, ["~> 0.1.6"])
-      s.add_runtime_dependency(%q<spinning_cursor>, ["~> 0.1.0.rc1"])
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_runtime_dependency(%q<spinning_cursor>, ["~> 0.1.2"])
+      s.add_development_dependency(%q<shoulda>, ["~> 3.0.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
-      s.add_development_dependency(%q<simplecov>, [">= 0"])
     else
-      s.add_dependency(%q<selenium-webdriver>, ["~> 2.20"])
+      s.add_dependency(%q<selenium-webdriver>, ["~> 2.21.2"])
       s.add_dependency(%q<choice>, ["~> 0.1.6"])
-      s.add_dependency(%q<spinning_cursor>, ["~> 0.1.0.rc1"])
-      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<spinning_cursor>, ["~> 0.1.2"])
+      s.add_dependency(%q<shoulda>, ["~> 3.0.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
-      s.add_dependency(%q<simplecov>, [">= 0"])
     end
   else
-    s.add_dependency(%q<selenium-webdriver>, ["~> 2.20"])
+    s.add_dependency(%q<selenium-webdriver>, ["~> 2.21.2"])
     s.add_dependency(%q<choice>, ["~> 0.1.6"])
-    s.add_dependency(%q<spinning_cursor>, ["~> 0.1.0.rc1"])
-    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<spinning_cursor>, ["~> 0.1.2"])
+    s.add_dependency(%q<shoulda>, ["~> 3.0.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, ["~> 1.1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
-    s.add_dependency(%q<simplecov>, [">= 0"])
   end
 end
 
