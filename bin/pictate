@@ -30,6 +30,14 @@ def show_error str="There was an error with the parsing..."
 end
 
 #
+# Check if java exists (needed for selenium)
+#
+`which java`
+if not $?.success?
+  show_error "Java is not installed. Pictate uses Selenium and HTMLUnit java applications."
+end
+
+#
 # Check image extension
 #
 ext = File.extname Choice.rest.first || ""
