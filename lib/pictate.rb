@@ -33,17 +33,23 @@ module Pictate
       selenium_path = server_path
     else
       previous_wd = FileUtils.pwd
-      FileUtils.cd(File.join PICTATE_ROOT, 'ext')
+      begin
+        FileUtils.cd(File.join ENV['HOME'], '.selenium')
+      rescue
+        FileUtils.mkdir(File.join ENV['HOME'], '.selenium')
+        FileUtils.cd(File.join ENV['HOME'], '.selenium')
+      end
       selenium_latest = Selenium::Server.latest
       if not File.exists? "selenium-server-standalone-#{selenium_latest}.jar"
+        @download = true
         SpinningCursor.set_banner "Downloading latest version of selenium " +
           "server standalone"
       end
-      selenium_path = Selenium::Server.download(selenium_latest)
+      @selenium_path = Selenium::Server.download(selenium_latest)
     end
 
     SpinningCursor.set_banner "Starting selenium standalone server"
-    @server = Selenium::Server.new(selenium_path, :background => true)
+    @server = Selenium::Server.new(@selenium_path, :background => true)
     @server.start
     caps = Selenium::WebDriver::Remote::Capabilities.htmlunit(
       :javascript_enabled => true)
@@ -57,6 +63,14 @@ module Pictate
   def stop_server
     @driver.quit
     @server.stop
+    if @download
+      SpinningCursor.set_message <<-EOF
+#{SpinningCursor.set_message nil}
+
+Selenium was downloaded to #{@selenium_path}.
+You can remove it if you need, but note that pictate will download it again if you don't specify another path.
+EOF
+    end
   end
 
   #
@@ -82,6 +96,5 @@ module Pictate
       best.gsub!("Best guess for this image:", "")
       result = "I believe this is a picture of: #{best}."
     end
-    result
   end
 end
